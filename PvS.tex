@@ -142,20 +142,28 @@ Programmierung von Systemen
 	\end{itemize}
 	
 	\section{Collections-Generics}
-	\subsection{Array}
+	\subsection{Datenstrukturen}
+	\subsubsection{Array}
 	Statische Größe, wird mit Länge und Datentyp gespeichert, zB int[5]. Objekt x erhalten: array[x]. Länge: array.length
-	\subsection{ArrayList}
+	\subsubsection{ArrayList}
 	Klasse die zur Speicherung Arrays verwendet, diese aber ersetzt wenn die Methoden \texttt{add()} oder \texttt{remove()} aufgerufen werden. Mit \texttt{toArray()} kann der Array erhalten werden, mit \texttt{size()} die Größe, da diese dynamisch ist. Objekt erhalten: arraylist.get(x).
-	\subsection{Linked List}
+	\subsubsection{Linked List}
 	Jedes Listenelement enthält einen Zeiger auf das nächste Element, bei dem letzten Element ist der Zeiger \texttt{NULL}.
-	\subsection{Double Linked List}
+	\subsubsection{Double Linked List}
 	Wie linked list, nur dass jedes Element zusätzlich einen Zeiger auf das vorherige Element enthält (beim ersten Element \texttt{NULL}).
-	\subsection{Sorted Tree}
+	\subsubsection{Sorted Tree}
 	Setzt die Sortierbarkeit der Objekte voraus: Objekte mit kleinerem Wert sind links des Vaterknotens, mit größerem rechts. Beim Einfügen / Entfernen reorganisieren: rot-schwarz Bäume, B Baum, B+Baum
 	\begin{center}
 		\includegraphics[width=0.5\linewidth]{images/sortedtree}
 	\end{center}
-	\subsection{title}
+	\subsubsection{HashTable}
+	Objekte werden gehasht, also ein Wert aus ihnen berechnet, anhand dessen sie in in eine Tabelle eingeordnet werden.
+	\subsubsection{Map}
+	Speichert nicht einzelne Werte, sondern Tupel aus (Key, Value), nutzt dann zB eine Liste aus Tupeln oder eine Hashtabelle anhand der Keys.
+	
+	\subsection{Collections API}
+	
+	
 	
 	
 	
