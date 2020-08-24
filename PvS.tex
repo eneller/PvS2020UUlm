@@ -6,6 +6,7 @@
 \usepackage{xcolor}
 \usepackage{comment}
 \usepackage[german]{babel}
+\usepackage{wrapfig} %allows text to wrap images
 
 
 
@@ -50,6 +51,65 @@ Programmierung von Systemen
 	\newpage
 	
 
+	\section{UML-Klassendiagramme}
+	\subsection{Klassen und Schnittstellen}
+	Methoden und Attribute werden wie in Java in der Form \texttt{\$TYP \$NAME} angegeben, ist die Methode vom Typ \texttt{void} entfällt der Rückgabetyp.
+	\begin{itemize}
+		\item \texttt{private} wird durch ''-'' symbolisiert
+		\item \texttt{package} wird durch ''{\raise.17ex\hbox{$\scriptstyle\sim$}}'' symbolisiert
+		\item \texttt{protected} wird durch ''\#'' symbolisiert
+		\item \texttt{public} wird durch ''+'' symbolisiert
+		\item \texttt{static}  wird \underline{unterstrichen}
+	\end{itemize}
+	\texttt{\{readonly\}} ist ein UML Attribut das für Konstanten verwendet wird.
+	Die Multiplizität wird genutzt um Listen und Mengen von Objekten anzugeben:
+	\begin{enumerate}
+		\item Typ
+		\item Größe begrenzt \{1..x\} oder unendlich [*]
+		\item Attribute wie \{order\} und \{unique\}
+	\end{enumerate}
+	Der Block einer Klasse / eines Interfaces besteht aus drei Feldern: 
+	\begin{enumerate}
+		\item Name mit Modifikatoren
+		\item Attribute (Variablen)
+		\item Methoden
+	\end{enumerate}
+	 Modifikatoren für die Klasse können sein: \texttt{\flqq interface\frqq} oder \texttt{\{abstract\}} bzw. der Name in \textit{kursiv}.
+
+	 \subsection{Relationen}
+
+ 	\texttt{extends} oder \texttt{implements} wird dargestellt durch einen nicht ausgefüllten Pfeil, wobei die Linie bei gleichen Typen (Interface erbt von Interface, Klasse von Klasse) durchgezogen ist, wenn eine Klasse ein Interface implementiert, gestrichelt.
+ 	
+ 	\begin{center}
+ 		\includegraphics[width=0.5\linewidth]{images/interface1}
+ 	\end{center}
+
+		
+	 
+	 \begin{itemize}
+	 	\item Abhängigkeit (Dependency): User nutzt Ressource, aber die Ressource ist nicht Teil der User Klasse. Wird die Ressource modifiziert, muss auch der User modifiziert werden. 
+	 		\begin{center}
+	 		\includegraphics[width=0.5\linewidth]{images/dependency}
+	 		\end{center}
+
+		
+	 	\item Aggregation: ''ist Teil von'', wird symbolisiert durch einen Pfeil mit leerer Raute
+	 	\begin{center}
+	 		\includegraphics[width=0.5\linewidth]{images/aggregation}
+	 	\end{center}
+	 	\item Komposition ''besteht aus'', wird symbolisiert durch einen Pfeil mit ausgefüllter Raute
+	 	\begin{center}
+	 		\includegraphics[width=0.5\linewidth]{images/composition}
+	 	\end{center}
+ 	
+ 	\item Assoziation: Die Klassen sind auf eine beliebige Weise verbunden, nutzen Methoden der anderen aber nicht auf die oben genannten Weisen
+ 	\begin{center}
+ 		\includegraphics[width=0.4\linewidth]{images/association}
+ 	\end{center}
+	 \end{itemize}
+	
+	Kommentare werden mit einer gestrichelten Linie mit dem eigentlichen Objekt verbunden.
+	
 	
 	\section{Version Control Systems}
 
@@ -162,7 +222,12 @@ Programmierung von Systemen
 	Speichert nicht einzelne Werte, sondern Tupel aus (Key, Value), nutzt dann zB eine Liste aus Tupeln oder eine Hashtabelle anhand der Keys.
 	
 	\subsection{Collections API}
+	Stellt effiziente Datenstrukturen für viele Anwendunge bereit, sodass Datenstrukturen und Algorithmen nicht selbst implementiert werden müssen.
 	
+	\begin{itemize}
+		\item \texttt{LinkedList}: add, remove, get, clear, set, indexOf, size, contains
+		\item \texttt{TreeSet}: add, remove, contains, size
+	\end{itemize}
 	
 	
 	
