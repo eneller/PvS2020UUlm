@@ -1,0 +1,167 @@
+\documentclass[12pt,a4]{article}
+
+\usepackage{graphicx}
+\usepackage{amssymb}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}%allows urls to follow line breaks of text
+\usepackage{xcolor}
+\usepackage{comment}
+\usepackage[german]{babel}
+
+
+
+\usepackage[utf8]{inputenc}%implements vowel mutations
+\raggedright %shifts text to the left page border
+
+
+%\begin{comment}
+
+%sets colors for links
+\hypersetup{
+	colorlinks=false,
+	urlbordercolor=red,
+	%urlcolor=red,
+	%linkcolor=red,
+	%filecolor=red,      
+	%urlcolor=red,
+	pdftitle={Seminararbeit},
+	%bookmarks=true,
+	%pdfpagemode=FullScreen,
+}
+%\end{comment}
+%the figure element allows you to insert a logo on the title page
+\title{
+	\begin{figure}
+		\centering
+		\includegraphics[height=1.5cm]{logo.png}
+	\end{figure}
+Programmierung von Systemen 
+}
+
+\author{Erik Neller | Dozent: Matthias Tichy}
+%\date{18.08.2020}
+
+\begin{document}
+	
+	\maketitle
+	\thispagestyle{empty} %removes page number from title
+	\newpage
+	
+	\tableofcontents
+	\newpage
+	
+
+	
+	\section{Version Control Systems}
+
+	\subsection{Grundlegende Funktionen}
+		Version Control Systems (VCS) erlauben die Verwaltung von mehreren Teilen und Versionen eines Projekts und damit die Zusammenarbeit von mehreren Teilnehmern.
+	\begin{itemize}
+		\item Rechteverwaltung (z.B. Entwickler von Front-und Backend, Projektmanagement)
+		\item Archivierung in verschiedenen Versionen (einfach anhand der gemachten Änderung, anstatt vollständige Backups zu machen)
+		\item Speicherung von Metadaten: Historie von Änderungen mit Datum, Autor, etc.
+		\item Backup zur Wiederherstellung lokal gelöschter Daten oder versehentlicher Änderungen
+		\item Zentralisierung auf Server
+		
+	\end{itemize}
+	\subsection{Git}
+	Das Git System besteht aus vier Teilen, von denen drei durch Git selbst implementiert werden. Jede Änderung durchläuft sie in dieser Reihenfolge: 
+	\begin{enumerate}
+		\item Der eigentlichen Arbeitsplatz / \textit{Workspace} in dem Änderungen an Dateien vorgenommen werden
+		\item Die \textit{staging area}, in der \textit{commits} aus einzelnen Änderungen an Dateien feingranular (bis zu einzelnen Zeilen) zusammengesetzt werden
+		\item Das \textit{lokalen Repository}
+		\item Das \textit{remote Repository} auf einem Server, beispielsweise GitHub oder GitLab
+	\end{enumerate}
+	Auf den einzelnen Bereichen existieren verschiedene Befehle. Für die staging area:
+	\begin{itemize}
+		\item \texttt{git init} erstellt ein neues Git-Repository im aktuellen Verzeichnis
+		\item \texttt{git add} um Dateien der staging area hinzuzufügen
+		\item In einer \texttt{.gitignore} Datei können Regeln für Dateien angegeben werden, die generell nicht mit in die staging area aufgenommen werden sollen
+		\item \texttt{git status} um aktuell geänderte und getrackte Dateien zu sehen
+		\item \texttt{git rm --cached} um Dateien aus der staging area zu entfernen
+		
+	\end{itemize}
+	%\newline
+	Für das lokale Repository:
+	\begin{itemize}
+		\item \texttt{git commit -m \$MESSAGE} um den Inhalt der staging area in das lokale Repository hinzuzufügen
+		\item \texttt{git checkout \$COMMIT-HASH} erlaubt das Wiederherstellen vorheriger Zustände von commits
+		\item \texttt{git log} zeigt den Verlauf von commits an
+		\item \texttt{git remote add \$NAME \$ADDRESS} verknüpft das lokale Repository mit einem remote Repository
+	\end{itemize}
+
+	Und für das remote Repository:
+	\begin{itemize}
+		\item \texttt{git push \$REPOSITORY \$BRANCH} um den lokalen commit auf den Server zu legen
+		\item \texttt{git pull} um das lokale Repository mit den Änderungen aus dem remote Repository zu aktualisieren
+		\item \texttt{git clone \$REPOSITORY} um das ganze Repository lokal zu speichern
+	\end{itemize}
+
+
+	
+	Für verschiedene Themengebiete / Zuständigkeitsbereiche existiert das Konzept von Branches(Verzweigungen), die mit \texttt{git branch \$NAME} erstellt werden können, um anschließend mit \texttt{git checkout \$NAME} in den Branch zu wechseln, oder in Kurzform: \texttt{git checkout -b \$NAME}. Mit \texttt{git merge \$NAME} kann dann ein Branch in den jeweils Aktuellen integriert, oder mit \texttt{git branch -d \$NAME} gelöscht werden. Ist keine automatische Vereinigung der Branches möglich, müssen die angezeigten Dateien manuell geändert und anschließend mit \texttt{git add \$FILE} Alternativ kann der Branch in das Repository aufgenommen werden: \texttt{git push \$REMOTE \$BRANCH}.
+	
+	
+	
+
+
+	\section{Objektorientierung}
+	\subsection{Interfaces}
+	Analog zur abstrakten Klasse erlaubt ein Interface keine Instanziierung. Es enthält keine tatsächliche Implementierung, sondern nur Methodenrümpfe und evtl. Konstanten und muss dementsprechend in jeder Klasse mit dem Schlüsselwort \texttt{implements} implementiert werden. Im Gegensatz zu abstrakten Klassen können mehrere Interfaces von einer Klasse implementiert werden.
+	
+	\subsection{Sichtbarkeit}
+	
+	\begin{center}
+		\includegraphics[width=0.7\linewidth]{images/modifiers}
+	\end{center}
+	
+	
+	\subsection{Annotations}
+	Verschiedene Standardannotationen, eigene definierbar. Durch Reflection zur Laufzeit auslesbar.
+	\begin{itemize}
+		\item \texttt{@Override} gibt an dass hier ein Element überschrieben werden soll
+		\item \texttt{@Deprecated} gibt eine Warnung aus dass Element veraltet ist
+		\item \texttt{@SuppressWarnings()} unterdrückt die angegebene Warnung
+		\item \texttt{@Documented} nimmt nachfolgende Annotationen in die JavaDoc mit auf
+	\end{itemize}
+	JavaDoc:
+	\begin{itemize}
+		\item \texttt{@author}
+		\item \texttt{@version}
+		\item \texttt{@param} zur Beschreibung von Methodenparametern
+		\item \texttt{@return} beschreibt den Rückgabewert
+		\item \texttt{@exception}, \texttt{@throws} Beschreibt Fehlermeldungen, die diese Methode produzieren kann
+		\item \texttt{@link} Verknüpfung zu anderem Symbol
+	\end{itemize}
+	
+	\subsection{Enumerations}
+	Mit einem \texttt{enum} kann eine Menge von Konstanten definiert werden, entweder auf Klassenlevel oder innerhalb einer Klasse. Sie sind auch selbst eine Klasse, deren Attribute \texttt{public static final} definiert sind. Methoden: 
+	\begin{itemize}
+		\item \texttt{int ordinal()} gibt die Position in der Liste des Enums zurück
+		\item \texttt{String name()} gibt den Namen der Konstanten zurück
+		\item \texttt{int valueOf} gibt den zugeordneten Wert der Variablen zurück 
+	\end{itemize}
+	
+	\section{Collections-Generics}
+	\subsection{Array}
+	Statische Größe, wird mit Länge und Datentyp gespeichert, zB int[5]. Objekt x erhalten: array[x]. Länge: array.length
+	\subsection{ArrayList}
+	Klasse die zur Speicherung Arrays verwendet, diese aber ersetzt wenn die Methoden \texttt{add()} oder \texttt{remove()} aufgerufen werden. Mit \texttt{toArray()} kann der Array erhalten werden, mit \texttt{size()} die Größe, da diese dynamisch ist. Objekt erhalten: arraylist.get(x).
+	\subsection{Linked List}
+	Jedes Listenelement enthält einen Zeiger auf das nächste Element, bei dem letzten Element ist der Zeiger \texttt{NULL}.
+	\subsection{Double Linked List}
+	Wie linked list, nur dass jedes Element zusätzlich einen Zeiger auf das vorherige Element enthält (beim ersten Element \texttt{NULL}).
+	\subsection{Sorted Tree}
+	Setzt die Sortierbarkeit der Objekte voraus: Objekte mit kleinerem Wert sind links des Vaterknotens, mit größerem rechts. Beim Einfügen / Entfernen reorganisieren: rot-schwarz Bäume, B Baum, B+Baum
+	\begin{center}
+		\includegraphics[width=0.5\linewidth]{images/sortedtree}
+	\end{center}
+	\subsection{title}
+	
+	
+	
+	
+	
+	
+	
+	
+\end{document}
