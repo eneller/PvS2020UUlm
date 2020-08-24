@@ -61,13 +61,9 @@ Programmierung von Systemen
 		\item \texttt{public} wird durch ''+'' symbolisiert
 		\item \texttt{static}  wird \underline{unterstrichen}
 	\end{itemize}
-	\texttt{\{readonly\}} ist ein UML Attribut das für Konstanten verwendet wird.
-	Die Multiplizität wird genutzt um Listen und Mengen von Objekten anzugeben:
-	\begin{enumerate}
-		\item Typ
-		\item Größe begrenzt \{1..x\} oder unendlich [*]
-		\item Attribute wie \{order\} und \{unique\}
-	\end{enumerate}
+	\texttt{\{readonly\}} ist ein UML Attribut das für Konstanten verwendet wird. 
+	\newline\newline
+	
 	Der Block einer Klasse / eines Interfaces besteht aus drei Feldern: 
 	\begin{enumerate}
 		\item Name mit Modifikatoren
@@ -75,6 +71,16 @@ Programmierung von Systemen
 		\item Methoden
 	\end{enumerate}
 	 Modifikatoren für die Klasse können sein: \texttt{\flqq interface\frqq} oder \texttt{\{abstract\}} bzw. der Name in \textit{kursiv}.
+	 
+	 Die Multiplizität wird genutzt um Listen und Mengen von Objekten anzugeben, aber auch in Relationen zwischen Klassen:
+	 \begin{center}
+	 	\includegraphics[width=0.5\linewidth]{images/multiplicity}
+	 \end{center}
+	 \begin{enumerate}
+	 	\item Typ
+	 	\item Größe begrenzt \{1..x\} oder unendlich [*]
+	 	\item Attribute wie \{order\} und \{unique\}
+	 \end{enumerate}
 
 	 \subsection{Relationen}
 
@@ -91,21 +97,21 @@ Programmierung von Systemen
 	 		\begin{center}
 	 		\includegraphics[width=0.5\linewidth]{images/dependency}
 	 		\end{center}
-
-		
-	 	\item Aggregation: ''ist Teil von'', wird symbolisiert durch einen Pfeil mit leerer Raute
+ 		
+ 		\item Aggregation: ''ist Teil von'', wird symbolisiert durch einen Pfeil mit leerer Raute
 	 	\begin{center}
 	 		\includegraphics[width=0.5\linewidth]{images/aggregation}
 	 	\end{center}
+	 	
 	 	\item Komposition ''besteht aus'', wird symbolisiert durch einen Pfeil mit ausgefüllter Raute
 	 	\begin{center}
 	 		\includegraphics[width=0.5\linewidth]{images/composition}
 	 	\end{center}
  	
- 	\item Assoziation: Die Klassen sind auf eine beliebige Weise verbunden, nutzen Methoden der anderen aber nicht auf die oben genannten Weisen
- 	\begin{center}
- 		\includegraphics[width=0.4\linewidth]{images/association}
- 	\end{center}
+ 		\item Assoziation: Die Klassen sind auf eine beliebige Weise verbunden, nutzen Methoden der anderen aber nicht auf die oben genannten Weisen
+ 		\begin{center}
+ 			\includegraphics[width=0.4\linewidth]{images/association}
+ 		\end{center}
 	 \end{itemize}
 	
 	Kommentare werden mit einer gestrichelten Linie mit dem eigentlichen Objekt verbunden.
