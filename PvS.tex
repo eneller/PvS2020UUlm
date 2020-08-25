@@ -151,6 +151,7 @@ Programmierung von Systemen
 	\begin{itemize}
 		\item \texttt{git commit -m \$MESSAGE} um den Inhalt der staging area in das lokale Repository hinzuzufügen
 		\item \texttt{git checkout \$COMMIT-HASH} erlaubt das Wiederherstellen vorheriger Zustände von commits
+		\item \texttt{git reset --soft HEAD{\raise.17ex\hbox{$\scriptstyle\sim$}}x} erlaubt das Rückgängigmachen von x commits
 		\item \texttt{git log} zeigt den Verlauf von commits an
 		\item \texttt{git remote add \$NAME \$ADDRESS} verknüpft das lokale Repository mit einem remote Repository
 	\end{itemize}
@@ -229,11 +230,48 @@ Programmierung von Systemen
 	
 	\subsection{Collections API}
 	Stellt effiziente Datenstrukturen für viele Anwendunge bereit, sodass Datenstrukturen und Algorithmen nicht selbst implementiert werden müssen.
+	Das Collection Interface selbst enthält Methoden wie add(), size(), contains(), remove()
+	\begin{itemize}
+	
+	\item List ist eine geordnete Collection: add(e), add(index, e), indexOf(e), contains(e) 
+	\item Set ist eine Collection ohne Duplikate(inklusive \texttt{NULL}): add(), contains()
+	\end{itemize}
+	\subsection{Queue}
+	Warteschlange als Datenstruktur bei der Elemente am einen Ende angehängt und am anderen Ende gelesen werden. Dementsprechend existieren die folgenden Methoden, die eine Exception verursachen bei Fehlern:
 	
 	\begin{itemize}
-		\item \texttt{LinkedList}: add, remove, get, clear, set, indexOf, size, contains
-		\item \texttt{TreeSet}: add, remove, contains, size
+		\item add(e) fügt ein Element hinten an der Queue an, falls max. Größe erreicht Exception
+		\item remove() nimmt das vorderste Element der Queue und gibt es zurück, gleichzeitig wird es aus der Queue entfernt (Exception falls Queue leer)
+		\item element() gibt das erste Element aus der Queue zurück aber löscht es nicht (ebenfalls Exception falls leer)
 	\end{itemize}
+
+	Alternativ existieren die Methoden mit speziellen Rückgabewerten anstelle von Exceptions:
+	\begin{itemize}
+		\item offer(e) gibt true/false zurück ob Element hinzugefügt wurde
+		\item poll() gibt Element oder \texttt{NULL} zurück
+		\item peek() gibt Element oder \texttt{NULL} zurück
+	\end{itemize}
+
+	\subsection{Deque}
+	Ist die Erweiterung einer Queue mit den gleichen Operationen an beiden Enden der Datenstruktur, analog zu einem Kartendeck.
+	\subsubsection{Exception und special Element}
+	
+\begin{tabular}{|c|c|c|c|c|}
+	\hline 
+	&\multicolumn{2}{|c|}{\textbf{throw Exception}}&\multicolumn{2}{|c|}{\textbf{special Element}} \\
+	\hline 
+	&\textit{first}&\textit{last}&\textit{first}&\textit{last}  \\ 
+	\hline 
+	\textbf{einfügen}&addFirst()&addLast()&offerFirst()&offerLast()\\ 
+	\hline 
+	\textbf{löschen}&  removeFirst()&removeLast()&pollFirst()&pollLast()\\ 
+	\hline 
+	\textbf{lesen}(behalten)&getFirst()&getLast()&peekFirst()&peekLast()\\ 
+	\hline 
+\end{tabular} 
+
+	\subsubsection{Blocking Deque}
+
 	
 	
 	
