@@ -24,7 +24,7 @@
 	%linkcolor=red,
 	%filecolor=red,      
 	%urlcolor=red,
-	pdftitle={Seminararbeit},
+	pdftitle={Programmierung von Systemen},
 	%bookmarks=true,
 	%pdfpagemode=FullScreen,
 }
@@ -208,7 +208,7 @@ Programmierung von Systemen
 		\item \texttt{int valueOf} gibt den zugeordneten Wert der Variablen zurück 
 	\end{itemize}
 	
-	\section{Collections-Generics}
+	\section{Collections}
 	\subsection{Datenstrukturen}
 	\subsubsection{Array}
 	Statische Größe, wird mit Länge und Datentyp gespeichert, zB int[5]. Objekt x erhalten: array[x]. Länge: array.length
@@ -254,6 +254,7 @@ Programmierung von Systemen
 
 	\subsection{Deque}
 	Ist die Erweiterung einer Queue mit den gleichen Operationen an beiden Enden der Datenstruktur, analog zu einem Kartendeck.
+	
 	\subsubsection{Exception und special Element}
 	
 \begin{tabular}{|c|c|c|c|c|}
@@ -271,7 +272,26 @@ Programmierung von Systemen
 \end{tabular} 
 
 	\subsubsection{Blocking Deque}
-
+	Die dritte Möglichkeit ist den Thread zu blockieren wenn die Operation nicht möglich ist. Davon existieren zwei Varianten: mit maximaler Blockierungszeit (Timeout) und ohne. Dieses blocking deque implementiert sowohl die blocking Queue (welche queue und blocking implementiert) als auch das Deque.
+	\begin{center}
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		&\textbf{block}&\textbf{timeout}\\ 
+		\hline 
+		\textbf{einfügen}&putFirst()&offerFirst(e,time,unit)\\ 
+		\hline 
+		\textbf{löschen}&takeFirst()&pollFirst(e,time,unit)\\ 
+		\hline 
+		\textbf{lesen}(behalten)&-&-  \\ 
+		\hline 
+	\end{tabular} 
+	\end{center}
+	\subsection{Generics}
+	Collections können \textit{generisch} verwendet werden, indem bei der Initialisierung eine Klasse angegeben wird, deren Instanzen in der Collection enthalten sein werden. Bei allen anderen Klassen / Datentypen wird der Compiler hier direkt eine Fehlermeldung liefern, was der Alternative, potenzielle Fehler während der Laufzeit, vorzuziehen ist.
+	\subsection{Streams}
+	Streams aus \texttt{java.util.stram.Stream<T>} stellen Ströme von Referenzen dar, die es erlauben, verkettete Operationen auf diesem Datenstrom nacheinander oder parallel auszuführen. Bestimmte Methoden erlauben die Verwendung von Prädikaten und klassischen mathematischen Funktionen. Wo vorher eine for-Schleife mit Zählvariable notwendig war um die Anzahl von bestimmten Elementen in einem Array zu erhalten, kann man damit schreiben: \texttt{anzahl = Arrays.stream(myArray).filter(x -> x.equals("String")).count();}
+	
+	\section{IO Streams}
 	
 	
 	
