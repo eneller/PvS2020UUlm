@@ -1,3 +1,4 @@
+% !TeX spellcheck = de_DE
 \documentclass[12pt,a4]{article}
 
 \usepackage{graphicx}
@@ -253,7 +254,7 @@ Programmierung von Systemen
 	\end{itemize}
 
 	\subsection{Deque}
-	Ist die Erweiterung einer Queue mit den gleichen Operationen an beiden Enden der Datenstruktur, analog zu einem Kartendeck.
+	Ist die Erweiterung einer Queue mit den gleichen Operationen an beiden Enden der Datenstruktur, analog zu einem Kartendeck (daher auch oft fälschlich Dequeue geschrieben: Double Ended queue)
 	
 	\subsubsection{Exception und special Element}
 	
@@ -272,7 +273,7 @@ Programmierung von Systemen
 \end{tabular} 
 
 	\subsubsection{Blocking Deque}
-	Die dritte Möglichkeit ist den Thread zu blockieren wenn die Operation nicht möglich ist. Davon existieren zwei Varianten: mit maximaler Blockierungszeit (Timeout) und ohne. Dieses blocking deque implementiert sowohl die blocking Queue (welche queue und blocking implementiert) als auch das Deque.
+	Die dritte Möglichkeit ist, den Thread zu blockieren wenn die Operation nicht möglich ist. Davon existieren zwei Varianten: mit maximaler Blockierungszeit (Timeout) und ohne. Dieses blocking deque implementiert sowohl die blocking Queue (welche queue und blocking implementiert) als auch das Deque.
 	\begin{center}
 	\begin{tabular}{|c|c|c|}
 		\hline 
@@ -291,9 +292,138 @@ Programmierung von Systemen
 	\subsection{Streams}
 	Streams aus \texttt{java.util.stram.Stream<T>} stellen Ströme von Referenzen dar, die es erlauben, verkettete Operationen auf diesem Datenstrom nacheinander oder parallel auszuführen. Bestimmte Methoden erlauben die Verwendung von Prädikaten und klassischen mathematischen Funktionen. Wo vorher eine for-Schleife mit Zählvariable notwendig war um die Anzahl von bestimmten Elementen in einem Array zu erhalten, kann man damit schreiben: \texttt{anzahl = Arrays.stream(myArray).filter(x -> x.equals("String")).count();}
 	
-	\section{IO Streams}
+	\section{Java IO}
+	\subsection{Streams}
+	Grundlegende Operationen beim Lesen von Daten: 
+	\begin{itemize}
+		\item read
+		\item skip
+		\item available (prüfen ob Daten verfügbar)
+		\item close
+	\end{itemize}
+	und beim schreiben von Daten: 
+	\begin{itemize}
+		\item write
+		\item flush (prüfen ob richtig geschrieben)
+		\item close
+	\end{itemize}
+
+	Verschiedene Arten von Daten die in Java gelesen werden: ByteArray, Object, andere Dateien
 	
+	Ein Stream ist  eine ''Hülle'' für eine Datei und kann wie der utilStream mehrere Dateien als kontinuierlichen Strom bearbeiten.
 	
+	Für die verschiedene Zwecke existieren auch verschiedene Streams, die einander übergeben werden können:
+	\begin{itemize}
+		\item InputStream als generelles Interface / Klasse
+		\item FileInputStream zum Lesen von Dateien
+		\item ByteArrayInputStream zum Lesen von ByteArrays
+		\item DataInputStream zum Lesen von Java Datentypen
+		\item ObjectInputStream zum Lesen von Java Objekten (Problem: Versionierung)
+		\item SequenceInputStream zum Verknüpfen mehrerer Inputstreams
+		\item BufferedInputStream zum schnelleren Lesen über einen Pufferspeicher
+	\end{itemize}
+\subsection{Reader/Writer}
+	Liest statt Bytes lesbare Zeichen/Characters, also ist ein Reader/writer eine erweiterte Version der Streams der zusätzlich eine Übersetzung von Characters in Bytes macht.
+	\begin{itemize}
+		\item Reader
+		\item FileReader
+		\item StringReader analog zu ByteArrayInputStream
+		\item BufferedReader
+		\item InputStreamReader um von Stream zu Reader zu übersetzen
+	\end{itemize}
+Über ein boolean flag kann außerdem bestimmt werden, ob an die existierende Datei beim Schreiben angehängt werden soll. Tatsächlich wahlfreien Zugriff erhält man mit RandomAccessFile(file,mode), das dann auch die Methoden seek() und getFilePointer() bereitstellt. Zur Erleichterung der Nutzung existiert außerdem das try-with-resources-Statement.
+\subsection{Decorator Pattern}
+Reader / Writer und Streams nutzen das Decorator Pattern um die Kombination verschiedener Funktionalitäten zu erleichtern. Anstatt BufferedDataFileInputStream zu implementieren, können einfach die verschiedenen Streams einander übergeben werden und so ''verschachtelt'' verwendet werden. Im Decorator Pattern werden die grundlegenden Methoden, die von der konkreten Komponente und den Decoratorn implementiert werden, durch ein Interface definiert. Jede Decorator Klasse kann dann unter Verwendung der konkreten Komponente zusätzliche Funktionen hinzufügen.
+\begin{center}
+	\includegraphics[width=0.5\linewidth]{images/decorator}
+\end{center}
+
+
+\section{Dateien}
+\subsection{java.io.file}
+In java.io.file sind sämtliche Java-Methoden zum Umgang mit Dateien zusammengefasst.
+\subsection{java.nio.file.*}
+Stellt erneuerte, sortierte Methoden zum Umgang mit Dateien bereit.
+\begin{itemize}
+	\item FileSystem(s): Wurzelverzeichnisse / Arten von Dateisystemen
+	\item Path(s): Pfade zu Dateien / Verzeichnissen
+	\item Files: zur tatsächlichen Manipulation von Dateien
+\end{itemize}
+\subsection{Scanner}
+Kann primitive Typen scannen: Boolean, int, Double, String.
+Mit den Methoden hasNext kann überprüft werden ob der Scanner eine Eingabe des entsprechenden Typs bereit hält, um diesen dann mit next()  abzurufen.
+\subsection{RegEx}
+Reguläre Ausdrücke aus der Automaten - / Sprachentheorie können verwendet werden um Übereinstimmung mit einem Format zu prüfen.
+ \subsubsection{Zeichenauswahl}
+ Innerhalb von [] lässt sich eine Zeichenauswahl treffen.
+ \begin{itemize}
+ 	\item \(\left[egh\right]\) wählt eines der Zeichen e,g oder h aus
+ 	\item \(\left[0-6\right]\) eine Zifer von 0 bis 6
+ 	\item \(\left[a-zA-Z0-9\right]\) lateinischer Buchstabe oder Ziffer
+ 	\item \(\left[\wedge a\right]\) negiert a, alles außer a
+ \end{itemize}
+ 
+ 	Vordefinierte Zeichenklassen:
+ 	\begin{itemize}
+ 		\item \textbackslash d für digit, also Zahlsymbole
+ 		\item \textbackslash w word character inklusive Unterstrich \(\left[a-zA-Z_0-9\right]\), eventuell auch nicht-lateinische Buchstaben
+ 		\item \textbackslash s WhiteSpace
+ 		\item \textbackslash n newline
+ 		\item . (Punkt) als Wildcard für alle Zeichen außer Zeilenumbrüchen, im single-line mode auch diese
+ 	\end{itemize}
+ Vordefinierte Zeichenklassen können mit der großgeschriebenen Variante negiert werden: während \textbackslash d für [0-9] steht, bedeutet \textbackslash D \(\left[\wedge 0-9\right]\).
+ Die Zeichensätze, insbesondere die der Buchstaben, sind in der Regel von der Betriebssystem-locale abhängig.
+	\subsubsection{Quantoren}
+	
+	\begin{center}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline 
+		Ausdruck&  & ? & + & *&*?&\{m,n\}&\{m\}\\ 
+		\hline 
+		Bedeutung&  1&  0,1& \(\geq 1\) &  \(\geq 0\)&kleinste passende Zeichenkette&\{min,max\}&\{m,m\}\\ 
+		\hline 
+	\end{tabular} 
+\end{center}
+
+\subsubsection{Spezielle Zeichen}
+\begin{itemize}
+	\item \(\wedge\) Anfang der Zeile
+	\item \$ Ende der Zeile
+	\item X\textbar Z X oder Z
+	\item XZ X gefolgt von Z
+	\item () zum Gruppieren von Ausdrücken, kann später mit \$x wieder aufgerufen werden, Zählung beginnt mit 1
+	\item a(?!b) a, wenn nicht gefolgt von b (negative lookahead)
+	\item \textbackslash 1 um auf Capture Groups zuzugreifen, die dann den tatsächlichen Inhalt referenzieren.
+\end{itemize}
+\subsubsection{Modi}
+\begin{itemize}
+	\item (?i) um Groß- und Kleinschreibung zu beachten
+	\item (?s) für single-line Mode (ganze Datei als eine Zeile interpretieren)
+	\item (?m) für multi-line mode
+\end{itemize}
+\subsubsection{Java}
+Einige Java Funktionen unterstützen RegEx nativ, zB split(), matches(), replaceFirst(), replaceAll() aber \textbf{nicht} replace(). Außerdem existieren java-util.regex.Pattern und java.util.regex.Matcher .
+
+\section{XML}
+Extensible Markup Language zur Darstellung hierarchisch strukturierter Daten innerhalb einer Textdatei. \newline Tags werden mit \texttt{\(<\)Tag\(>\) \textit{Inhalt} \(<\)/Tag\(>\)} angegeben und können Kind-Tags und Attribute haben. Kind-Tags werden innerhalb des Inhaltes angegeben, während Attribute im Tag selbst geschrieben werden, also \newline \texttt{\(<\)Tag attr="hello"\(>\) \textit{Inhalt} \(<\)/Tag\(>\)}. Um die Gültigkeit von XML Dateien sicherzustellen, muss ein Muster vorgegeben werden, mit dem diese geprüft werden kann. Die Syntax ist durch XML vorgegeben, die Gültigkeit der Kombinationen und des hierarchischen Aufbaus kann / muss jedoch je nach Anwendung angepasst werden und braucht so eine variable Überprüfung.
+\subsection{DTD}
+\subsubsection{Hinzufügen}
+Verwiesen wird auf die DTD in der XML Datei über \texttt{<!DOCTYPE \textit{rootNode} SYSTEM\textbar PUBLIC \textit{file.dtd}>}. Mit SYSTEM wird eine lokale URI angegeben, mit PUBLIC eine vordefinierte, online bereitgestellte DTD verwendet.
+\subsubsection{Aufbau}
+DTD Elemente werden, wie auch der DTD-include-tag mit \(<\)!ELEMENT \textit{name} \textit{inhalt}\(>\) angegeben. Für Attribute wird \texttt{!ATTLIST  \textit{nameDesBezugsTags}} statt \texttt{!ELEMENT}  verwendet. Attribute können zB \#REQUIRED, \#IMPLIED(optional), oder \#FIXED sein, mit ''...'' kann ein Standardwert angegeben werden. Kindelemente werden nur mit Namen aufgezählt, nicht tatsächlich innerhalb der anderen Tags angegeben, da ein Tag auch mehrere Verwendungen haben könnte.
+
+ Für die Angabe von Kindelementen existieren reguläre Ausdrücke:
+
+Außerdem können Auflistungen in Reihenfolge durch Kommata getrennt werden und Elemente mit () gruppiert werden.
+\subsubsection{Inhalt}
+\begin{itemize}
+	\item \#PCDATA, bei dem die Eingabe wie der Rest der Datei geparst wird, also in Text zum Beispiel \(<\)FETT\(>\) \(<\)/FETT\(>\) verwendet werden kann um verschiedene Formatierungen zu erhalten. Werden in \#PCDATA reservierte Symbole verwendet, müssen diese kodiert werden
+	\item \#CDATA wird als reiner Text interpretiert
+\end{itemize}
+ 
+ 
+\subsection{XSD}
+XML Schema Definition ist selbst in XML und verweist auf eine ''root'' XSD Datei, um wiederum die Korrektheit der XSD zu prüfen. Erweitert die Funktionalität der DTD.
 	
 	
 	
