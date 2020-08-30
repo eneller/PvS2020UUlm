@@ -2,12 +2,13 @@
 \documentclass[12pt,a4]{article}
 
 \usepackage{graphicx}
-\usepackage{amssymb}
+\usepackage{amssymb}%math symbols
 \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}%allows urls to follow line breaks of text
 \usepackage{xcolor}
 \usepackage{comment}
-\usepackage[german]{babel}
+\usepackage[german]{babel}%allos usage of vowel mutations
 \usepackage{wrapfig} %allows text to wrap images
+\usepackage{multicol}%allos multi column text formatting
 
 
 
@@ -391,9 +392,12 @@ Reguläre Ausdrücke aus der Automaten - / Sprachentheorie können verwendet wer
 	\item \$ Ende der Zeile
 	\item X\textbar Z X oder Z
 	\item XZ X gefolgt von Z
-	\item () zum Gruppieren von Ausdrücken, kann später mit \$x wieder aufgerufen werden, Zählung beginnt mit 1
+	\item () zum Gruppieren von Ausdrücken, kann später mit \$x wieder aufgerufen werden, Zählung beginnt mit 1; capture group
+	\item (?:) um eine Zeichenkette zu gruppieren, aber nicht zu speichern (kann später nicht aufgerufen werden); non-capturing group
 	\item a(?!b) a, wenn nicht gefolgt von b (negative lookahead)
 	\item \textbackslash 1 um auf Capture Groups zuzugreifen, die dann den tatsächlichen Inhalt referenzieren.
+	
+%	https://www.keycdn.com/support/regex-cheatsheet
 \end{itemize}
 \subsubsection{Modi}
 \begin{itemize}
@@ -405,25 +409,77 @@ Reguläre Ausdrücke aus der Automaten - / Sprachentheorie können verwendet wer
 Einige Java Funktionen unterstützen RegEx nativ, zB split(), matches(), replaceFirst(), replaceAll() aber \textbf{nicht} replace(). Außerdem existieren java-util.regex.Pattern und java.util.regex.Matcher .
 
 \section{XML}
-Extensible Markup Language zur Darstellung hierarchisch strukturierter Daten innerhalb einer Textdatei. \newline Tags werden mit \texttt{\(<\)Tag\(>\) \textit{Inhalt} \(<\)/Tag\(>\)} angegeben und können Kind-Tags und Attribute haben. Kind-Tags werden innerhalb des Inhaltes angegeben, während Attribute im Tag selbst geschrieben werden, also \newline \texttt{\(<\)Tag attr="hello"\(>\) \textit{Inhalt} \(<\)/Tag\(>\)}. Um die Gültigkeit von XML Dateien sicherzustellen, muss ein Muster vorgegeben werden, mit dem diese geprüft werden kann. Die Syntax ist durch XML vorgegeben, die Gültigkeit der Kombinationen und des hierarchischen Aufbaus kann / muss jedoch je nach Anwendung angepasst werden und braucht so eine variable Überprüfung.
+Extensible Markup Language zur Darstellung hierarchisch strukturierter Daten innerhalb einer Textdatei. 
+Beginnt in der Regel mit \texttt{<?xml version=''1.0'' encoding=''UTF-8''?>}
+Tags werden mit \texttt{\(<\)Tag\(>\) \textit{Inhalt} \(<\)/Tag\(>\)} angegeben und können Kind-Tags und Attribute haben. Kind-Tags werden innerhalb des Inhaltes angegeben, während Attribute im Tag selbst geschrieben werden, also \newline \texttt{\(<\)Tag attr="hello"\(>\) \textit{Inhalt} \(<\)/Tag\(>\)}. Um die Gültigkeit von XML Dateien sicherzustellen, muss ein Muster vorgegeben werden, mit dem diese geprüft werden kann. Die Syntax ist durch XML vorgegeben, die Gültigkeit der Kombinationen und des hierarchischen Aufbaus kann / muss jedoch je nach Anwendung angepasst werden und braucht dementsprechend eine variable Überprüfung.
+Kommentare haben die Form \texttt{<!-- Kommentar -->}
 \subsection{DTD}
-\subsubsection{Hinzufügen}
+\subsubsection{Verknüpfen}
 Verwiesen wird auf die DTD in der XML Datei über \texttt{<!DOCTYPE \textit{rootNode} SYSTEM\textbar PUBLIC \textit{file.dtd}>}. Mit SYSTEM wird eine lokale URI angegeben, mit PUBLIC eine vordefinierte, online bereitgestellte DTD verwendet.
 \subsubsection{Aufbau}
-DTD Elemente werden, wie auch der DTD-include-tag mit \(<\)!ELEMENT \textit{name} \textit{inhalt}\(>\) angegeben. Für Attribute wird \texttt{!ATTLIST  \textit{nameDesBezugsTags}} statt \texttt{!ELEMENT}  verwendet. Attribute können zB \#REQUIRED, \#IMPLIED(optional), oder \#FIXED sein, mit ''...'' kann ein Standardwert angegeben werden. Kindelemente werden nur mit Namen aufgezählt, nicht tatsächlich innerhalb der anderen Tags angegeben, da ein Tag auch mehrere Verwendungen haben könnte.
+\begin{itemize}
+	\item Element \texttt{<!ELEMENT Name Inhalt>}
+	\item Attribut \texttt{<!ATTLIST referenzELement (Name Typ Wert)>} verschiedene Vorgaben für Attribute sind: \#REQUIRED, \#IMPLIED (=optional), \#FIXED, und ein Standardwert mit ''Wert''
+	\item Entity \texttt{<!ENTITY name ''Zeichenkette''>} Abkürzung für einen String oder ein Dokument, das dann referenziert werden kann, also \#PCDATA
+	
+\end{itemize}
+
+ Kindelemente werden nur mit Namen aufgezählt, nicht tatsächlich innerhalb der anderen Tags angegeben, da ein Tag auch mehrere Verwendungen haben könnte.
 
  Für die Angabe von Kindelementen existieren reguläre Ausdrücke:
 
 Außerdem können Auflistungen in Reihenfolge durch Kommata getrennt werden und Elemente mit () gruppiert werden.
-\subsubsection{Inhalt}
+\subsubsection{Datentypen}
+In einer DTD existieren nur zwei grundlegende Datentypen:
 \begin{itemize}
-	\item \#PCDATA, bei dem die Eingabe wie der Rest der Datei geparst wird, also in Text zum Beispiel \(<\)FETT\(>\) \(<\)/FETT\(>\) verwendet werden kann um verschiedene Formatierungen zu erhalten. Werden in \#PCDATA reservierte Symbole verwendet, müssen diese kodiert werden
+	\item \#PCDATA, bei dem die Eingabe wie der Rest der Datei geparst wird, also in Text zum Beispiel \(<\)FETT\(>\) \(<\)/FETT\(>\) verwendet werden kann um verschiedene Formatierungen zu erhalten. Sollen in \#PCDATA reservierte Symbole verwendet werden, müssen deren Kodierungen statt der eigentlichen Symbole eingetragen werden.
 	\item \#CDATA wird als reiner Text interpretiert
 \end{itemize}
  
  
-\subsection{XSD}
-XML Schema Definition ist selbst in XML und verweist auf eine ''root'' XSD Datei, um wiederum die Korrektheit der XSD zu prüfen. Erweitert die Funktionalität der DTD.
+\subsection{XSD}%=DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
+XML Schema Definition ist selbst in XML und verweist auf eine ''root'' XSD Datei, um wiederum die Korrektheit der XSD zu prüfen. XSD erweitert die Funktionalität der DTD um die Möglichkeit:
+\begin{itemize}
+	\item die Anzahl der Instanzen eines Elements anzugeben
+	\item das Aussehen der Zeichendaten innerhalb eines Elements zu spezifizieren
+	\item die semantische Bedeutung eines Elements zu beschreiben.
+	\item eigene Datentypen zu erstellen
+\end{itemize}
+Das Wurzelelement \texttt{<schema>} hat folgende Form:\newline
+\texttt{<\textit{namespace}:schema \newline xmlns:\textit{namespace}=''\textit{XSDnamespace}'' \newline
+	targetNamespace=''https://package.URI.com/file.xsd'' \newline
+	xmlns=''https://defaultnamespace.xsd'' >}
+\begin{enumerate}
+	\item \textit{namespace}, das Präfix für den Namespace , das in der zweiten Zeile definiert wird.
+	\item wird der Namespace der XSD benannt und ein Namespace(äquivalent zu Package) angegeben, in dem sich die XSD befindet.
+	\item der targetNamespace, also der Namespace in dem sich die durch die XSD definierten Elemente befinden
+	\item der default Namespace, in dem sich alle Elemente ohne explizites Präfix befinden
+\end{enumerate}
+\subsubsection{Verknüpfen}
+
+\subsubsection{Datentypen}
+XSD enthält einige grundlegende, bereits bekannte Datentypen:
+Grundlegende Typen:
+\begin{multicols}{3}
+	\begin{itemize}
+		\item xs:string
+		\item xs:decimal
+		\item xs:integer
+		\item xs:boolean
+		\item xs:date
+		\item xs:time
+	\end{itemize}
+\end{multicols}
+
+	Auch bei ihnen können den Daten Eigenschaften wie \texttt{default} und \texttt{fixed} gegeben werden, jeweils mit einem korrespondierenden Wert. Außerdem können für jedes Element \texttt{minOccurs} und \texttt{maxOccurs} definiert werden. \texttt{<element name=''Hello'' minOccurs=''0'' default=''World''>}
+	
+	Darüber hinaus gibt es zwei definierbare Datentypen, \texttt{<simpleType>} und \texttt{<complexType>}, die entweder innerhahlb eines Elements einmalig definiert werden können, oder universell nur innerhalb von \texttt{<schema>}.
+	\paragraph{simpleType}
+	Entsteht aus den Basis-Datentypen durch Einschränkung mit \texttt{<restriction base=''string''>} mit einem Kindelement der Art \texttt{<maxLength value=''10''/>} (maxExclusive, maxInclusive). Kann keine anderen Elemente enthalten.
+	Auch eine \texttt{enumeration} zählt als Einschränkung und damit als \texttt{simpleType}, da sie nur vorgegebene Werte annehmen kann. Dafür wird innerhalb der restriction tags eine liste von \texttt{<enumeration value=''blau''>} erstellt, die dann die validen Zustände darstellen.
+	\paragraph{complexType}
+	Entsteht aus mehreren simpleTypes oder einer Restriktion eines complexType. Am häufigsten ist eine \texttt{<sequence>}, oder \texttt{<all>}(sequence mit minOccurs=1) von mehreren anderen Typen.
+	
 	
 	
 	
